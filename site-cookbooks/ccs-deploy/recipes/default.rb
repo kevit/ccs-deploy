@@ -5,6 +5,7 @@ include_recipe "apt"
 include_recipe "nginx"
 
 package "nginx"
+package "monit"
 package "libnet-ssleay-perl"
 package "libjson-perl"
 package "libfcgi-perl"
