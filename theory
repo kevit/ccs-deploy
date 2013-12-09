@@ -1,0 +1,39 @@
+Hi all.
+
+Please check results.
+
+>1 What is virtual Memory?
+That is a address space mapped by process
+
+>1.1 Is there a command that would show the system to be in such a state?
+Yes, major is vmstat/sar
+
+>1.2 Can the kernel swap to a ramdisk?
+Yes, if ramdisk is a normal block device, why not?
+
+>1.3 How can a 32-bit system use more than 4GB of RAM?
+By using PAE
+
+>2. What is a filesystem?
+That is a way to organize data on the OS kernel. Typically usage is a provide access to bundle of data (files) on block devices
+
+>2.1 What is an access control list? How is it used in Linux?
+That is a table to describe user privileges. It used because unix file permissions cannot provide selective access per user, only per owner/group
+
+>2.2 Is it possible to have a hard link spanning two files in different filesystems? What is the reason?
+No, because hardlink is a directory file record, whose describe the same filesystem inode.
+
+> 3. The directory /data is mounted via NFS:
+192.168.1.105:/data on /data type nfs (rw,soft,intr,addr=192.168.1.105)
+>3.1 Even though permissions are set correctly in the local system, root can not create files on it. What are the probable causes of this happening?
+By default remote root user receive a different userid with nobody rights
+ 
+>3.2 What are the main differences between NFSv2, NFSv3 and NFSv4?
+NFSv2 is UDP only, NFSv3 is stateless and support async write, NFSv4 is TCP only and heading file locking properly.
+
+>3.3 What daemons are necessary to be running on an NFS server if a client wants to mount an NFSv3 share?
+nfs, portmapper, nlockmgr, rquotad  and mountd.
+
+>3.4 An NFS server is very loaded, running 8 nfsd threads. How can one prove to the sysadmin that it is necessary to increase the number of NFS threads?
+Show "nfsstat -rc" retransmissions counter to your sysadmin. If growing - number of threads should be increased.
+

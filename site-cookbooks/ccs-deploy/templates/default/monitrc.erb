@@ -1,0 +1,20 @@
+set daemon  60
+set logfile syslog facility log_daemon
+set mailserver localhost
+set mail-format { from: monit@example.com }
+set alert root@localhost
+set httpd port 2812 and
+allow admin:test
+
+check process cgiproxy with pidfile /var/run/cgiproxy.pid
+start program = "/etc/init.d/cgiproxy start"
+stop program  = "/etc/init.d/cgiproxy stop"
+if children < 5 then restart
+if 5 restarts within 5 cycles then timeout
+
+check process nginx with pidfile /var/run/nginx.pid
+start program = "/etc/init.d/nginx start"
+stop program  = "/etc/init.d/nginx stop"
+if failed host example.com port 80 protocol http then restart
+if failed host example.com port 443 type tcpssl sslauto protocol http then restart
+group www-data

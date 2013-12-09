@@ -1,0 +1,115 @@
+Some recommendations about optimization you can find inside cgiproxy source code.
+Actually you should find balance between number of workers and load, since most of reply on second test is non-200 
+( unsurprisely if you already checked proxy settings)
+
+-----
+
+
+ ab -n 500 -c 5 http://example.com/proxy/en/I0/http/8.to/
+This is ApacheBench, Version 2.3 <$Revision: 655654 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking example.com (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Finished 500 requests
+
+
+Server Software:        Apache/2
+Server Hostname:        example.com
+Server Port:            80
+
+Document Path:          /proxy/en/I0/http/8.to/
+Document Length:        13533 bytes
+
+Concurrency Level:      5
+Time taken for tests:   73.906 seconds
+Complete requests:      500
+Failed requests:        0
+Write errors:           0
+Total transferred:      6913500 bytes
+HTML transferred:       6766500 bytes
+Requests per second:    6.77 [#/sec] (mean)
+Time per request:       739.062 [ms] (mean)
+Time per request:       147.812 [ms] (mean, across all concurrent requests)
+Transfer rate:          91.35 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        2  595 823.0    573    5582
+Processing:     0  142 325.2      0    5187
+Waiting:        0  141 325.1      0    5186
+Total:        121  737 854.3    581    5615
+
+Percentage of the requests served within a certain time (ms)
+  50%    581
+  66%    590
+  75%    596
+  80%    602
+  90%    622
+  95%    709
+  98%   5574
+  99%   5583
+ 100%   5615 (longest request)
+
+
+
+
+------
+
+
+ ab -n 500 -c 50 http://example.com/proxy/en/I0/http/8.to/
+This is ApacheBench, Version 2.3 <$Revision: 655654 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking example.com (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Finished 500 requests
+
+
+Server Software:        nginx/1.2.1
+Server Hostname:        example.com
+Server Port:            80
+
+Document Path:          /proxy/en/I0/http/8.to/
+Document Length:        172 bytes
+
+Concurrency Level:      50
+Time taken for tests:   3.490 seconds
+Complete requests:      500
+Failed requests:        24
+   (Connect: 0, Receive: 0, Length: 24, Exceptions: 0)
+Write errors:           0
+Non-2xx responses:      476
+Total transferred:      485596 bytes
+HTML transferred:       406664 bytes
+Requests per second:    143.26 [#/sec] (mean)
+Time per request:       349.007 [ms] (mean)
+Time per request:       6.980 [ms] (mean, across all concurrent requests)
+Transfer rate:          135.88 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        2  206 384.5     86    2047
+Processing:     0   56 281.4      1    2045
+Waiting:        0   55 281.2      0    2042
+Total:         13  262 510.0     99    3372
+
+Percentage of the requests served within a certain time (ms)
+  50%     99
+  66%    120
+  75%    145
+  80%    149
+  90%   1187
+  95%   1219
+  98%   2047
+  99%   2904

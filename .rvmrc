@@ -1,0 +1,5 @@
+rvm use ruby-1.9.2@chief --create
+
+alias knife="bundle exec knife"
+#alias irb="bundle exec irb"
+#alias vagrant="bundle exec vagrant"

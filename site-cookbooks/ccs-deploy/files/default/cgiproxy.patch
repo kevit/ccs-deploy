@@ -1,0 +1,38 @@
+--- nph-proxy.cgi.original	2013-10-22 23:28:28.000000000 +0000
++++ nph-proxy.cgi	2013-12-09 06:58:50.000000000 +0000
+@@ -338,7 +338,7 @@
+ #   merely accessing "https://example.com" .
+ # Note that this is not a secret from the users, just from anyone watching
+ #   network traffic.  Also, it won't be kept secret if your server is insecure.
+-$SECRET_PATH= 'secret' ;
++$SECRET_PATH= 'proxy' ;
+ 
+ 
+ # If this script is not running as your user ID (such as a Web server running
+@@ -547,7 +547,7 @@
+ # Richard Smith has a good test site for anonymizing proxies, at
+ #   http://users.rcn.com/rms2000/anon/test.htm
+ # Note that turning this on removes most popup ads!  :)
+-$REMOVE_SCRIPTS= 0 ;
++$REMOVE_SCRIPTS= 1 ;
+ 
+ 
+ # If set, then filter out images that match one of @BANNED_IMAGE_URL_PATTERNS,
+@@ -1016,7 +1016,7 @@
+ #   you install the script where both a secure server and a non-secure server
+ #   will serve it, and it will work correctly through either server.
+ # This has nothing to do with retrieving pages that are on SSL servers.
+-$RUNNING_ON_SSL_SERVER= '' ;
++$RUNNING_ON_SSL_SERVER= '1' ;
+ 
+ 
+ # If your server doesn't support NPH scripts, then set this variable to true
+@@ -7768,7 +7768,7 @@
+     # Ideally we'd support other values, but at least use this to prevent some
+     #   non-proxied pages.
+     if ($name eq 'x-frame-options') {
+-	return 'SAMEORIGIN' ;
++	return undef ;
+     }
+ 
+ 
