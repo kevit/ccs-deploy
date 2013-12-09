@@ -11,12 +11,12 @@ package "libjson-perl"
 package "libfcgi-perl"
 package "libfcgi-procmanager-perl"
 
-cgiproxy_archive = Chef::Config[:file_cache_path] + '/cgiproxy-archive.tar.gz'
-remote_file cgiproxy_archive do
-    source "http://www.jmarshall.com/tools/cgiproxy/releases/cgiproxy.2.1.8.tar.gz"
-    mode "0644"
-end
-
+#cgiproxy_archive = '/var/chef/cache/cgiproxy-archive.tar.gz'
+#remote_file cgiproxy_archive do
+#    source "http://www.jmarshall.com/tools/cgiproxy/releases/cgiproxy.2.1.8.tar.gz"
+#    mode "0644"
+#end
+#
 directory "/opt/cgiproxy" do
   owner 'root'
   group 'root'
@@ -25,11 +25,18 @@ directory "/opt/cgiproxy" do
   recursive true
 end
 
-execute 'untar-cgiproxy' do
-  cwd '/opt/cgiproxy'
-  command 'tar -xzf ' + cgiproxy_archive
+cookbook_file "/opt/cgiproxy/nph-proxy.cgi" do
+    source 'nph-proxy.cgi'
+    mode "0755"
 end
 
+#
+#
+#execute 'untar-cgiproxy' do
+#  cwd '/opt/cgiproxy'
+#  command 'tar -xzf ' + cgiproxy_archive
+#end
+#
 cookbook_file "/opt/cgiproxy/cgiproxy.patch" do
     source 'cgiproxy.patch'
     mode "0644"
@@ -48,7 +55,7 @@ end
 cookbook_file "/etc/init.d/cgiproxy" do
     source 'cgiproxy.init'
     mode "0755"
-    notifies :enable, "service[cgiproxy]"
+#    notifies :enable, "service[cgiproxy]"
     notifies :start, "service[cgiproxy]"
 end
 
